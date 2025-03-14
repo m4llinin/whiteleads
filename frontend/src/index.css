@@ -1,0 +1,27 @@
+@import '@tabler/core/dist/css/tabler.min.css';
+
+body {
+  background-color: #f8f9fa;
+}
+
+.button-conteiner {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.container-tight {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container-xl {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}

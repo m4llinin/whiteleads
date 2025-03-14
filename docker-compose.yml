@@ -1,0 +1,72 @@
+services:
+  backend:
+    build:
+      context: backend/
+    container_name: backend
+    restart: on-failure
+    command: [ "fastapi", "run", "src/main.py", "--host", "0.0.0.0", "--port", "8000" ]
+    env_file:
+      - backend/env/prod.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
+    networks:
+      - prod
+
+  migrations:
+    build:
+      context: backend/
+    image: auth-service-image:latest
+    command: [ "alembic", "upgrade", "head" ]
+    env_file:
+      - backend/env/prod.env
+    restart: no
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - prod
+
+  db:
+    image: postgres:17-alpine
+    container_name: db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: database
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d database" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - prod
+
+  frontend:
+    build:
+      context: frontend/
+    container_name: frontend
+    restart: on-failure
+    command: [ "nginx", "-g", "daemon off;" ]
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      backend:
+        condition: service_started
+    networks:
+      - prod
+
+networks:
+  prod:
+    driver: bridge
