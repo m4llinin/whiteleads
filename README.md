@@ -1,20 +1,16 @@
 # Whiteleads
-
+Проект для парсинга вакансий с hh.ru и сохранения их локально в БД
 ---
 
-## 📋 Предварительные требования
+# Технологии  
+FastAPI, PostgreSQL, AsyncPG, SQLAlchemy 2.0, Alembic, Uvicorn, MyPy, Pydantic, JavaScript, React, Vite, Nginx, Docker, Docker Compose
 
-1. **Git** - система контроля версий:
-    - [Скачать Git](https://git-scm.com/downloads)
-    - Установите и настройте согласно инструкциям для вашей ОС
+# Функции
+- Парсинг вакансии с hh.ru
+- Сохранение вакансии в БД
+- Изменение вакансии в БД
 
-2. **Docker** и **Docker Compose**:
-    - [Установка Docker](https://docs.docker.com/get-docker/)
-    - [Установка Docker Compose](https://docs.docker.com/compose/install/)
-
----
-
-## 🛠 Настройка окружения
+## Запуск
 
 1. Склонируйте репозиторий:
    ```bash
@@ -22,46 +18,13 @@
    cd whiteleads
    ```
 
-2. Создайте файл окружения:
-    - Скопируйте шаблон:
-      ```bash
-      cp backend/env/example.env backend/env/prod.env
-      ```
-    - Заполните `prod.env`:
-
-      ```ini
-      # Настройки PostgreSQL
-      DB_HOST=
-      DB_PORT=
-      DB_USERNAME=
-      DB_PASSWORD=
-      DB_DATABASE=
- 
-      # Настройки безопасности
-      SECRET_KEY=
-      ALGORITHM=
-      ACCESS_TOKEN_EXPIRE_MINUTES=
-      REFRESH_TOKEN_EXPIRE_DAYS=
- 
-      # Настройки CORS
-      CORS_ORIGINS=
-      CORS_CREDENTIALS=
-      CORS_METHODS=
-      CORS_HEADERS=
- 
-      # Режим работы
-      MODE=
-      ```
-
----
-
-## 🚀 Запуск проекта
-
-1. Соберите и запустите контейнеры:
+2. Создайте файл окружения backend/env/prod.env:
+   Скопируйте шаблон:
    ```bash
-   docker-compose up --build -d
+   cp backend/env/example.env backend/env/prod.env
    ```
-
-2. Проверьте работу:
-    - Бэкенд: `http://localhost:8000/docs`
-    - Фронтенд: `http://localhost`
+      
+3. Соберите и запустите контейнеры:
+   ```bash
+   docker compose up --build -d
+   ```
